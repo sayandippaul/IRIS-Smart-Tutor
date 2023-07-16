@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <!-- <script src="vendor/jquery/jquery.min.js"></script> -->
+    <!-- <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
+    <!-- 
+    <script src="assets/js/isotope.min.js"></script>
+    <script src="assets/js/owl-carousel.js"></script>
+    <script src="assets/js/lightbox.js"></script>
+    <script src="assets/js/tabs.js"></script>
+    <script src="assets/js/video.js"></script>
+    <script src="assets/js/slick-slider.js"></script>
+    <script src="assets/js/custom.js"></script> -->
+
+    <style>
+      body {
+        background: rgb(17, 102, 126);
+        background: -moz-radial-gradient(
+          circle,
+          rgba(17, 102, 126, 1) 0%,
+          rgba(0, 8, 81, 1) 100%
+        );
+        font-family: sans-serif;
+      }
+
+      #chatbot-container {
+        z-index: 999;
+        color: #2c2325;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        backdrop-filter: grayscale(0.8);
+      }
+
+      #chatbot-interface {
+        height: 70vh;
+        width: 60vw;
+        background-color: #2c2325;
+        border-radius: 1rem;
+      }
+
+      #chatbot-header {
+        font-weight: 600;
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
+        background: radial-gradient(
+            ellipse farthest-corner at right bottom,
+            #fedb37 0%,
+            #fdb931 8%,
+            #9f7928 30%,
+            #8a6e2f 40%,
+            transparent 80%
+          ),
+          radial-gradient(
+            ellipse farthest-corner at left top,
+            #d1b464 25%,
+            #5d4a1f 62.5%,
+            #5d4a1f 100%
+          );
+        padding: 0.2rem;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+      }
+
+      #chatbot-chat {
+        height: calc(100% - 56.9px - 6rem);
+        border-bottom-left-radius: 1rem;
+        border-bottom-right-radius: 1rem;
+        padding: 1rem;
+        overflow-y: scroll;
+        display: flex;
+        flex-direction: column-reverse;
+      }
+
+      .chatbot-messages {
+        padding: 1rem;
+        padding-top: 0.2rem;
+        padding-bottom: 0.2rem;
+        border-radius: 1rem;
+        margin-top: 0.3rem;
+        margin-bottom: 0.3rem;
+        width: fit-content;
+      }
+
+      .chatbot-received-messages {
+        background: radial-gradient(
+            ellipse farthest-corner at right bottom,
+            #fdb931 8%,
+            #9f7928 30%,
+            #8a6e2f 40%,
+            transparent 80%
+          ),
+          radial-gradient(
+            ellipse farthest-corner at left top,
+            #d1b464 25%,
+            #5d4a1f 62.5%,
+            #5d4a1f 100%
+          );
+        filter: grayscale(0.3);
+        border-top-left-radius: 0rem;
+      }
+      .chatbot-button {
+        padding: 1rem;
+        padding-top: 0.2rem;
+        padding-bottom: 0.2rem;
+        border-radius: 1rem;
+        margin-top: 0.3rem;
+        margin-bottom: 0.3rem;
+        width: fit-content;
+      }
+
+      .chatbot-received-button {
+        background-color: #29dcec;
+        /* background: radial-gradient(
+            ellipse farthest-corner at right bottom,
+            #eed742 8%,
+            #e1e665 30%,
+            #edae1b 40%,
+            transparent 80%
+          ),
+          radial-gradient(
+            ellipse farthest-corner at left top,
+            #29dcec 25%,
+            #69b4dd 62.5%,
+            #659abd 100%
+          ); */
+        filter: grayscale(0.3);
+        border-top-left-radius: 0rem;
+      }
+
+      .chatbot-sent-messages {
+        color: white;
+        background-color: #574449;
+        border-top-right-radius: 0rem;
+        margin-left: auto;
+        margin-right: 0;
+      }
+
+      #chatbot-footer {
+        padding: 2rem;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-around;
+        align-items: center;
+      }
+
+      #chatbot-input-container {
+        width: calc(100%);
+      }
+
+      #chatbot-input {
+        width: calc(100% - 2rem);
+        padding: 0.5rem;
+        color: white;
+        background-color: #574449;
+        border: 0.1rem solid #574449;
+        border-radius: 1rem;
+      }
+
+      #chatbot-input:focus {
+        outline-offset: 0px !important;
+        outline: none !important;
+        border: 0.1rem solid #8a6e2f;
+        /*box-shadow: 0 0 5px #FDB931 !important;*/
+      }
+
+      #chatbot-new-message-send-button {
+        cursor: pointer;
+      }
+
+      #send-icon {
+        color: white;
+      }
+
+      #chatbot-open-container {
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+        background: radial-gradient(
+            ellipse farthest-corner at right bottom,
+            #fedb37 0%,
+            #fdb931 8%,
+            #9f7928 30%,
+            #8a6e2f 40%,
+            transparent 80%
+          ),
+          radial-gradient(
+            ellipse farthest-corner at left top,
+            #d1b464 25%,
+            #5d4a1f 62.5%,
+            #5d4a1f 100%
+          );
+        padding: 1rem;
+        border-radius: 50%;
+        width: 3.5rem;
+        height: 3.5rem;
+        text-align: center;
+        cursor: pointer;
+        z-index: 1000;
+      }
+
+      #chatbot-open-container i {
+        padding-top: 0.25rem;
+        font-size: 3rem;
+        color: #2c2325;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="chatbot-container">
+      <div id="chatbot-interface">
+        <div id="chatbot-header">
+          <p>Smart Tutor And Guidance</p>
+          <button
+            class="chatbot-messages chatbot-sent-messages"
+            id="cancelcourse"
+            onclick="cancelcourse()"
+            style="font-weight: bold"
+          >
+            Cancel Course
+          </button>
+        </div>
+        <div id="chatbot-chat">
+          <div class="chatbot-messages chatbot-received-messages">
+            <p>Please type "start" to start conversation.</p>
+          </div>
+          <div class="chatbot-messages chatbot-received-messages">
+            <p>Hello! I am [name], Smart-Tutor.</p>
+          </div>
+        </div>
+        <div id="chatbot-footer">
+          <div id="chatbot-input-container">
+            <input
+              type="text"
+              id="chatbot-input"
+              name="chatbot-input"
+              placeholder="Type a command here..."
+            />
+          </div>
+          <div id="chatbot-new-message-send-button" onclick="newInput()">
+            <i class="material-icons" id="send-icon">send</i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button
+      onclick="gotoindex()"
+      style="
+        background-image: url('cancellogo.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+      "
+      id="chatbot-open-container"
+    ></button>
+  </body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  function gotoindex() {
+    window.location.replace("index.html");
+  }
+
+  const chat = document.getElementById("chatbot-chat");
+
+  $("#chatbot-open-container").click(function () {
+    $("#open-chat-button").toggle(200);
+    $("#close-chat-button").toggle(200);
+    $("#chatbot-container").fadeToggle(200);
+  });
+
+  document
+    .getElementById("chatbot-new-message-send-button")
+    .addEventListener("click", newInput);
+
+  document
+    .getElementById("chatbot-input")
+    .addEventListener("keypress", function (e) {
+      if (e.key === "Enter") {
+        newInput();
+      }
+    });
+  var mno = 0;
+
+  function newInput() {
+    newText = document.getElementById("chatbot-input").value;
+    if (newText == "") {
+    } else if (newText == "start" && subjectchosen == "") {
+      document.getElementById("chatbot-input").value = "";
+      addMessage("sent", newText);
+      generateResponse(newText, 0);
+    } else if (newText == "start" && subjectchosen != "") {
+      document.getElementById("chatbot-input").value = "";
+      addMessage("sent", newText);
+      mno = 1;
+      generateResponse(newText, subjectchosen);
+    } else {
+      document.getElementById("chatbot-input").value = "";
+      addMessage("sent", newText);
+      generateResponse(newText, -1);
+    }
+  }
+  function cancelcourse() {
+    mno = 0;
+    c = 0;
+    subjectchosen = "";
+    localStorage.setItem("studentsubject", "");
+
+    addMessage("sent", "I have left the Course now");
+    addMessage("received", "Thank You.,Have a Great day and keep Learning");
+    document.getElementById("cancelcourse").disabled = true;
+    document.getElementById("cancelcourse").innerHTML = "course cancelled";
+  }
+
+  function addMessage(type, text) {
+    let messageDiv = document.createElement("div");
+    let responseText = document.createElement("p");
+    responseText.appendChild(document.createTextNode(text));
+    // messageDiv.onclick = function () { alert("hi");}
+    if (type == "sent") {
+      messageDiv.classList.add("chatbot-messages", "chatbot-sent-messages");
+    } else if (type == "received") {
+      messageDiv.classList.add("chatbot-messages", "chatbot-received-messages");
+    }
+
+    messageDiv.appendChild(responseText);
+    chat.prepend(messageDiv);
+  }
+
+  function addbutton(type, text, c) {
+    let messageDiv = document.createElement("button");
+    let responseText = document.createElement("p");
+    responseText.appendChild(document.createTextNode(text));
+    messageDiv.setAttribute("onclick", "checkbutton(" + c + ");");
+
+    if (type == "sent") {
+      messageDiv.classList.add("chatbot-messages", "chatbot-sent-messages");
+    } else if (type == "received") {
+      messageDiv.classList.add("chatbot-button", "chatbot-received-button");
+      //   messageDiv.style.backgroundColor="blue";
+    }
+
+    messageDiv.appendChild(responseText);
+    chat.prepend(messageDiv);
+  }
+  var i = 0;
+  //   function websubjectchat() {}
+
+  // var subject=["web","app","dsa","python"];
+  var subject = [
+    {
+      name: "web",
+      topic: [
+        {
+          message: "Yeah! You have Chosen Web Development Course.",
+          button: [],
+        },
+        {
+          message:
+            "So what do you want from me? I can provide This amazing facilities about this course",
+          button: ["Courses Videos", "Study Materials", "Practice Problems"],
+        },
+        {
+          message:
+            "So Welcome to Web Development,I have provided some lectures.",
+          button: ["link1 courses", "link2", "link3"],
+        },
+        {
+          message:
+            "So Welcome to Web Development,I have provided some study materials/Documentation.",
+          button: ["link1 study", "link2", "link3"],
+        },
+        {
+          message:
+            "So Welcome to Web Development,I have provided some practice question links.",
+          button: ["link1 practice", "link2", "link3"],
+        },
+
+        {
+          message: "Do You To Exit From this Course?",
+          button: ["Yes", "No"],
+        },
+      ],
+    },
+    {
+      name: "app",
+      topic: [
+        {
+          message: "Yeah! You have Chosen Android Development Course.",
+          button: [],
+        },
+        {
+          message:
+            "So what do you want from me? I can provide This amazing facilities about this course",
+          button: ["Courses Videos", "Study Materials", "Practice Problems"],
+        },
+        {
+          message:
+            "So Welcome to android Development,I have provided some lectures.",
+          button: ["link1 courses", "link2", "link3"],
+        },
+        {
+          message:
+            "So Welcome to android Development,I have provided some study materials/Documentation.",
+          button: ["link1 study", "link2", "link3"],
+        },
+        {
+          message:
+            "So Welcome to android Development,I have provided some practice question links.",
+          button: ["link1 practice", "link2", "link3"],
+        },
+
+        {
+          message: "Do You To Exit From this Course?",
+          button: ["Yes", "No"],
+        },
+      ],
+    },
+    {
+      name: "python",
+      topic: [
+        {
+          message: "Yeah! You have Chosen python Language Course.",
+          button: [],
+        },
+        {
+          message:
+            "So what do you want from me? I can provide This amazing facilities about this course",
+          button: ["Courses Videos", "Study Materials", "Practice Problems"],
+        },
+        {
+          message:
+            "So Welcome to python Language ,I have provided some lectures.",
+          button: ["link1 courses", "link2", "link3"],
+        },
+        {
+          message:
+            "So Welcome to Python Language,I have provided some study materials/Documentation.",
+          button: ["link1 study", "link2", "link3"],
+        },
+        {
+          message:
+            "So Welcome to Python Language,I have provided some practice question links.",
+          button: ["link1 practice", "link2", "link3"],
+        },
+
+        {
+          message: "Do You To Exit From this Course?",
+          button: ["Yes", "No"],
+        },
+      ],
+    },
+    {
+      name: "dsa",
+      topic: [
+        {
+          message: "Yeah! You have Chosen Data Structure and Algorithm Course.",
+          button: [],
+        },
+        {
+          message:
+            "So what do you want from me? I can provide This amazing facilities about this course",
+          button: ["Courses Videos", "Study Materials", "Practice Problems"],
+        },
+        {
+          message:
+            "So Welcome to Data Structure and Algorithm ,I have provided some lectures.",
+          button: ["link1 courses", "link2", "link3"],
+        },
+        {
+          message:
+            "So Welcome to Data Structure and Algorithm ,I have provided some study materials/Documentation.",
+          button: ["link1 study", "link2", "link3"],
+        },
+        {
+          message:
+            "So Welcome to Data Structure and Algorithm ,I have provided some practice question links.",
+          button: ["link1 practice", "link2", "link3"],
+        },
+
+        {
+          message: "Do You To Exit From this Course?",
+          button: ["Yes", "No"],
+        },
+      ],
+    },
+  ];
+  //   console.log(subject);
+
+  var subjectchosen = localStorage.getItem("studentsubject");
+  // subjectchosen = "web";
+  // if(subjectchosen=="web"){
+  //     addMessage("received",web[i].message);
+  // }
+  var check;
+  function generateResponse(prompt, status) {
+    // Here you can add your answer-generating code
+    // alert(status);
+    if (status == 0) {
+      addMessage(
+        "received",
+        "You have Not Taken Any Course Yet.Please Select a course from home page."
+      );
+    } else if (status == -1) {
+      addMessage(
+        "received",
+        "Wrong information!Please type 'start' to start conversation."
+      );
+
+      //   addMessage("received", "Great to hear that!");
+    } else {
+      var mes = "",
+        mes1 = "";
+      // var check;
+      for (var j = 0; j < subject.length; j++) {
+        if (subject[j].name == status) {
+          mes = subject[j].topic[0].message;
+          mes1 = subject[j].topic[1].message;
+          check = j;
+          break;
+        }
+      }
+      addMessage("received", mes);
+      addMessage("received", mes1);
+
+      for (var c = 0; c < subject[check].topic[1].button.length; c++) {
+        addbutton("received", subject[check].topic[1].button[c], c);
+      }
+    }
+  }
+
+  function checkbutton(k) {
+    if (k == -1) {
+      document.getElementById("chatbot-input").value = "start";
+      newInput();
+      document.getElementById("chatbot-input").value = "";
+      return;
+    }
+    k = k + 1;
+    // alert(mno+" "+k);
+    addMessage("received", subject[check].topic[mno + k].message);
+    for (var c = 0; c < subject[check].topic[mno + k].button.length; c++) {
+      addMessage("received", subject[check].topic[mno + k].button[c]);
+    }
+    addbutton("received", "Go Back To Previous Menu", -1);
+  }
+</script>
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<script src="assets/js/isotope.min.js"></script>
+<script src="assets/js/owl-carousel.js"></script>
+<script src="assets/js/lightbox.js"></script>
+<script src="assets/js/tabs.js"></script>
+<script src="assets/js/video.js"></script>
+<script src="assets/js/slick-slider.js"></script>
+<script src="assets/js/custom.js"></script>
+<!-- <script>
+        // var web=[,,,"So Welcome to Web Development,We have provided some ."];
+    </script> -->
