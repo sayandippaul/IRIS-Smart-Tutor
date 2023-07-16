@@ -1082,6 +1082,14 @@ https://templatemo.com/tm-569-edu-meeting
     var tasktitlestring = "", taskdetailstring = "";
     tasktitlestring = localStorage.getItem("tasktitle");
     taskdetailstring = localStorage.getItem("taskdetail");
+    // var sesu = localStorage.getItem("studentsubject");
+    if(tasktitlestring==null){
+      localStorage.setItem("tasktitle","");
+    }
+    if(taskdetailstring==null){
+      localStorage.setItem("taskdetail","");
+    }
+    
     var taskt = ["hi"], taskd = ["hi"];
 
     if (tasktitlestring == "") {
