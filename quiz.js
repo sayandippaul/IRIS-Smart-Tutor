@@ -200,7 +200,12 @@ let questions = [
                     
 ];
 
-  var subjectchosen=localStorage.getItem("studentsubject");
+var subjectchosen = localStorage.getItem("studentsubject");
+    if(subjectchosen==null){
+      localStorage.setItem("studentsubject","");
+        subjectchosen="";
+    }
+    
 //   subjectchosen = "web";
   var sno=0;
   if(subjectchosen==""){
