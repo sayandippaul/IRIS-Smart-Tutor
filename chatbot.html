@@ -300,13 +300,14 @@
 
   function newInput() {
     newText = document.getElementById("chatbot-input").value;
+    newText=newText.toLowerCase();
     
     if (newText == "") {
-    } else if (newText.toLowerCase() == "start" && subjectchosen == "") {
+    } else if (newText == "start" && subjectchosen == "") {
       document.getElementById("chatbot-input").value = "";
       addMessage("sent", newText);
       generateResponse(newText, 0);
-    } else if (newText.toLowerCase() == "start" && subjectchosen != "") {
+    } else if (newText == "start" && subjectchosen != "") {
       document.getElementById("chatbot-input").value = "";
       addMessage("sent", newText);
       mno = 1;
