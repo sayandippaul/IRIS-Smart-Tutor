@@ -1046,6 +1046,9 @@ https://templatemo.com/tm-569-edu-meeting
 
     }
     var sesu = localStorage.getItem("studentsubject");
+    if(sesu==null){
+      localStorage.setItem("studentsubject","");
+    }
     if (sesu != "") {
 
       for (var i = 0; i < subject.length; i++) {
@@ -1109,7 +1112,6 @@ https://templatemo.com/tm-569-edu-meeting
 
 
     }
-    localStorage.setItem("studentsubject", "");
     showtaskbyarray();
     function showtaskbyarray() {
       var addup1 = "";
@@ -1226,7 +1228,7 @@ https://templatemo.com/tm-569-edu-meeting
       }
 
     }
-
+    // alert(sesu);
     var tasklist = [
       {
         name: "web",
@@ -1316,7 +1318,7 @@ https://templatemo.com/tm-569-edu-meeting
     showgeneratedtasks();
     function showgeneratedtasks() {
       var genup = "";
-      if (sesu != "") {
+      if (sesu != "" ) {
         for (var i = 0; i < tasklist.length; i++) {
           if (tasklist[i].name == sesu) {
             tsno = i;
