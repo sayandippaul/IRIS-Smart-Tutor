@@ -1103,9 +1103,41 @@ section.apply-now .item p {
 /* 
 ---------------------------------------------
 courses
+
 --------------------------------------------- 
 */
-
+.categories{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 25vw;
+}
+#links a{
+  text-decoration: none;
+  color: black;
+}
+#links{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 12px;
+}
+#rectangle-course{
+  background-color: black;
+  width: 13vw;
+  height: 34px;
+  border-radius: 9px;
+  margin-bottom: 40px;
+  /* margin-left: 48px; */
+}
+#rectangle-course h4{
+  color: white;
+  font-size: 15px;
+  text-align: center;
+  padding: 8px 0;
+}
 section.our-courses {
   background-image: url(../images/meetings-bg.jpg);
   background-position: center center;
@@ -1581,11 +1613,21 @@ section.meetings-page .pagination ul li a:hover {
   top: 20px;
 }
 
+.price h1{
+  font-size: 16px;
+  font-weight: 600;
+  color: #1F272B ;
+}
+.price{
+  background-color: #F5A425;
+  padding: 7px 12px;
+  border-radius: 10px;
+}
+
 .meeting-single-item .thumb .price span {
   font-size: 16px;
   color: #1f272b;
   font-weight: 600;
-  background-color: rgba(250,250,250,0.9);
   padding: 7px 12px;
   border-radius: 10px;
 }
