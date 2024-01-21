@@ -209,7 +209,8 @@ var subjectchosen = localStorage.getItem("studentsubject");
 //   subjectchosen = "web";
   var sno=0;
   if(subjectchosen==""){
-    alert("You Haven't Selected any course Yet ,Pls Select Course in home Page At first.");
+    alert(`Unlock the learning journey!
+    please go to home page or courses  section to choose a course first.`);
     document.getElementById("start_btn1").disabled=true;
   }
   else{
