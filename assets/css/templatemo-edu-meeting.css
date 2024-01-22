@@ -1362,13 +1362,13 @@ section.contact-us {
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
-  padding: 140px 0px 0px 0px;
+  padding: 120px 0px 0px 0px;
 }
 
 section.contact-us #contact {
-  background-color: #fff;
+  background-color: #EEEDED;
   border-radius: 20px;
-  padding: 40px;
+  padding: 20px;
 }
 
 section.contact-us #contact h2 {
@@ -1414,7 +1414,7 @@ section.contact-us #contact textarea {
 
 section.contact-us #contact button {
   font-size: 13px;
-  color: #fff;
+  color: #EEEDED;
   background-color: #a12c2f;
   padding: 12px 30px;
   display: inline-block;
@@ -1427,7 +1427,7 @@ section.contact-us #contact button {
 }
 
 section.contact-us #contact button:hover {
-  opacity: 0.9;
+  opacity: 0.75;
 }
 
 section.contact-us .right-info {
