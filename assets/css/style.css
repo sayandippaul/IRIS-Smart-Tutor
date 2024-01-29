@@ -1,0 +1,11 @@
+#links a:hover {
+    color: rgb(0, 255, 251);
+}
+.meeting-item:hover {
+    transform: translateY(-10px);
+    transition: 0.3s;
+}
+.item:hover{
+    transform: translateY(-10px);
+    transition: 0.3s;
+}
