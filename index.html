@@ -25,6 +25,8 @@
   <link rel="stylesheet" href="assets/css/lightbox.css">
   <link rel="stylesheet" href="assets/css/Scrollbar.css">
   <link rel="stylesheet" href="assets/css/style.css">
+  <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet" />
+
   <!--
 
 TemplateMo 569 Edu Meeting
@@ -163,12 +165,76 @@ https://templatemo.com/tm-569-edu-meeting
       font-size: 3rem;
       color: #2c2325;
     }
-    
+    .cookie-consent {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background-color: #3771aa;
+  color: #ecf0f1;
+  padding: 15px;
+  border-radius: 8px;
+  display: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column; /* Align elements vertically */
+  align-items: flex-start; /* Align elements to the start (left) */
+}
+
+.cookie-icon-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px; /* Add some spacing between icon and text */
+}
+
+.cookie-icon-container i {
+  font-size: 24px;
+  margin-right: 10px;
+  color: #ecf0f1;
+}
+
+.cookie-icon-container span {
+  font-weight: bold;
+  font-size: 18px;
+  color: #ecf0f1;
+}
+
+.cookie-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.cookie-buttons button {
+  background-color: #214259;
+  color: #ecf0f1;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cookie-buttons button:hover {
+  background-color: #2980b9;
+}
+
   </style>
 </head>
 
 <body>
-
+  <div class="cookie-consent" id="cookieConsent">
+    <div class="cookie-icon-container">
+      <i class="bx bx-cookie"></i> <!-- Cookie Icon -->
+      <span>Cookies Consent</span> <!-- Text beside the icon -->
+    </div>
+    <p>This website uses cookies to ensure you get the best experience on our website. <a href="#">Learn more</a></p>
+    <div class="cookie-buttons">
+      <button onclick="acceptCookies()">Accept</button>
+      <button onclick="declineCookies()">Decline</button>
+    </div>
+  </div>
+  
   <!-- Sub Header -->
   <div class="sub-header">
     <div class="container">
@@ -1042,6 +1108,36 @@ https://templatemo.com/tm-569-edu-meeting
   <script src="assets/js/slick-slider.js"></script>
   <script src="assets/js/custom.js"></script>
   <script>
+// Check if the user has accepted or declined cookies
+if (!document.cookie.includes("cookieConsentAccepted") && !document.cookie.includes("cookieConsentDeclined")) {
+  showCookieConsent();
+}
+
+// Function to show the cookie consent popup
+function showCookieConsent() {
+  var cookieConsent = document.getElementById("cookieConsent");
+  cookieConsent.style.display = "flex";
+}
+
+// Function to accept cookies and hide the popup
+function acceptCookies() {
+  var cookieConsent = document.getElementById("cookieConsent");
+  cookieConsent.style.display = "none";
+
+  // Set a cookie to remember that the user has accepted cookies
+  document.cookie = "cookieConsentAccepted=true; max-age=" + 60 * 60 * 24 * 30; // Set to expire in 30 days
+}
+
+// Function to decline cookies and hide the popup
+function declineCookies() {
+  var cookieConsent = document.getElementById("cookieConsent");
+  cookieConsent.style.display = "none";
+
+  // Set a cookie to remember that the user has declined cookies
+  document.cookie = "cookieConsentDeclined=true; max-age=" + 60 * 60 * 24 * 30; // Set to expire in 30 days
+}
+
+
     $("#chatbot-open-container").click(function () {
       // $("#open-chat-button").toggle(200);
       $("#close-chat-button").toggle(200);
