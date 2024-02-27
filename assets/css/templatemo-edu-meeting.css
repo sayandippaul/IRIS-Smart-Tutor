@@ -1467,12 +1467,12 @@ section.contact-us .right-info ul li span {
   text-align: center;
   margin-top: 140px;
   padding-top: 50px;
-  background-color: #a12c2f;
+  background-color: white;
 }
 .footer p {
   text-transform: uppercase;
   font-size: 14px;
-  color: #fff;
+  color: black;
 }
 
 .footer p a {
@@ -1481,7 +1481,7 @@ section.contact-us .right-info ul li span {
 .copyright {
   border-top: 1px solid rgba(250,250,250,0.15);
   padding: 20px 0;
-  background-color: #191a2039;
+  background-color: whitesmoke;
 }
 .cont {
   display: flex;
